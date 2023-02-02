@@ -1,15 +1,12 @@
 package Course_paper;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 
 public class WeeklyTask extends Task {
-    public WeeklyTask(Type type, String title) {
-        super(type, title);
-    }
-
-    public WeeklyTask(Type type, String title, String description) {
-        super(type, title, description);
+    public WeeklyTask(Type type, String title, String description, LocalDateTime localDateTime) {
+        super(type, title, description, localDateTime);
     }
 
     @Override

@@ -7,10 +7,10 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class TaskService {
-    private Map<Integer, ? super Task> taskMap = new HashMap<>();
+    private static Map<Integer, Task> taskMap = new HashMap<>();
 
 
-    public void addTask (Task task){
+    public static void addTask (Task task){
         taskMap.put(task.getId(), task);
     }
 
@@ -18,7 +18,7 @@ public class TaskService {
         taskMap.remove(id);
     }
 
-    public ArrayList <Task> getAllByDate (LocalDate localDate){
+    public static ArrayList <Task> getAllByDate (LocalDate localDate){
         ArrayList <Task> allTaskByDate = new ArrayList<>();
         for (Task task : allTaskByDate) {
             if (task.appearsIn(localDate)){

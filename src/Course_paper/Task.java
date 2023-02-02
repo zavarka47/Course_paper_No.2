@@ -14,18 +14,11 @@ public abstract class Task {
 
 //Конструкторы
 
-    public Task(Type type, String title) {
+    public Task(Type type, String title, String description, LocalDateTime localDateTime) {
         this.type = type;
         this.title = title;
-        this.dateTime = LocalDateTime.now();
-        id++;
-    }
-
-    public Task(Type type, String title, String description) {
-        this.type = type;
-        this.title = title;
-        this.dateTime = LocalDateTime.now();
         this.description = description;
+        this.dateTime = localDateTime;
         id++;
     }
 
