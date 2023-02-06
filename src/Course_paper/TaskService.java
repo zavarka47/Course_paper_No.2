@@ -14,17 +14,23 @@ public class TaskService {
         taskMap.put(task.getId(), task);
     }
 
-    public void removed (Integer id){
+    public static void removed (Integer id){
         taskMap.remove(id);
     }
 
     public static ArrayList <Task> getAllByDate (LocalDate localDate){
         ArrayList <Task> allTaskByDate = new ArrayList<>();
-        for (Task task : allTaskByDate) {
+        for (Task task : taskMap.values()) {
             if (task.appearsIn(localDate)){
                 allTaskByDate.add(task);
             }
         }
         return allTaskByDate;
+    }
+
+    public static void getAllTask (){
+        for (Task t :taskMap.values()) {
+            System.out.println(t);
+        }
     }
 }
