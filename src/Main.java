@@ -5,33 +5,33 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
 
-        OneTimeTask task1 = new OneTimeTask(Type.WORK, "0", "0", LocalDateTime.now());
-        System.out.println(
-                "1 - Добвляем новую задачку  \n" +
-                "2 - Получить план на день\n" +
-                "3 - Удалить задачку \n" +
-                        "Введите номер оперции - ");
-        Scanner generalMenu = new Scanner(System.in);
-        int menu1 = generalMenu.nextInt();
-        switch (menu1){
-            case 1:
+        int optionGeneralMenu;
+
+        do {
+            System.out.println("********************************  \n" +
+                    "1 - Добвляем новую задачку  \n" +
+                            "2 - Получить план на день\n" +
+                            "3 - Удалить задачку \n" +
+                            "0 - Выйти из приложения");
+            System.out.print("Введите номер оперции - ");
+            Scanner generalMenu = new Scanner(System.in);
+            optionGeneralMenu = generalMenu.nextInt();
+            if (optionGeneralMenu == 1) {
 
                 Type type = null;
                 String title = null;
                 String description = null;
                 LocalDateTime localDateTime = null;
 
-                System.out.println("********************");
                 System.out.println(
+                        "_______________ \n" +
                         "1 - Рабочая задача  \n" +
-                        "2 - Личная задача");
+                                "2 - Личная задача");
                 System.out.print("Выбери тип задачи - ");
                 Scanner typeMenu = new Scanner(System.in);
                 int tm = typeMenu.nextInt();
@@ -44,33 +44,32 @@ public class Main {
                         break;
                 }
 
-                System.out.println("********************");
-                System.out.println("Введите название задачи:");
+                System.out.println("_______________ \n" +
+                        "Введите название задачи:");
                 Scanner titleMenu = new Scanner(System.in);
-                String titM = titleMenu.nextLine();
+                title = titleMenu.nextLine();
 
-                System.out.println("********************");
-                System.out.println("Введите описание задачи:");
+                System.out.println("_______________ \n" +
+                        "Введите описание задачи:");
                 Scanner descriptionMenu = new Scanner(System.in);
-                String dm = descriptionMenu.nextLine();
+                description = descriptionMenu.nextLine();
 
-                System.out.println("********************");
-                System.out.print("Введите дату в формате (ДД.ММ.ГГГГ чч:мм) - ");
+                System.out.print("_______________ \n" +
+                        "Введите дату в формате (ДД.ММ.ГГГГ чч:мм) - ");
                 Scanner dateMenu = new Scanner(System.in);
                 String dataM = dateMenu.nextLine();
                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
                 localDateTime = LocalDateTime.parse(dataM, dtf);
-                System.out.println("********************");
-                System.out.println(
-                    "0 - Однократная задача  \n" +
-                            "1 - Ежедневная задача  \n" +
-                            "2 - Еженедельная задача  \n"+
-                            "3 - Ежемесячная задача  \n" +
-                            "4 - Ежегодная задача");
+                System.out.println("_______________ \n" +
+                        "0 - Однократная задача  \n" +
+                                "1 - Ежедневная задача  \n" +
+                                "2 - Еженедельная задача  \n" +
+                                "3 - Ежемесячная задача  \n" +
+                                "4 - Ежегодная задача");
                 System.out.print("Выбери периодичность задачи - ");
-                Scanner ap = new Scanner(System.in);
-                int app = ap.nextInt();
-                switch (app) {
+                Scanner addMenu = new Scanner(System.in);
+                int addMenuOption = addMenu.nextInt();
+                switch (addMenuOption){
                     case 0:
                         TaskService.addTask(new OneTimeTask(type, title, description, localDateTime));
                         break;
@@ -87,24 +86,26 @@ public class Main {
                         TaskService.addTask(new YearlyTask(type, title, description, localDateTime));
                         break;
                 }
-                break;
+            }
 
-            case 2:
+            if (optionGeneralMenu == 2) {
                 System.out.print("Введите дату в формате (ДД.ММ.ГГГГ) - ");
                 Scanner getTaskMenu = new Scanner(System.in);
                 String gtMenu = getTaskMenu.nextLine();
                 DateTimeFormatter gtm = DateTimeFormatter.ofPattern("dd.MM.yyyy");
                 LocalDate taskDate = LocalDate.parse(gtMenu, gtm);
                 for (Task task : TaskService.getAllByDate(taskDate)) {
-                    System.out.println(task);}
-                break;
-            case 3:
+                    System.out.println(task);
+                }
+            }
+
+            if (optionGeneralMenu == 3) {
                 System.out.print("Введите ID задачи - ");
                 Scanner removeTaskById = new Scanner(System.in);
                 Integer idTask = removeTaskById.nextInt();
                 TaskService.removed(idTask);
-                break;
-        }
+            }
+        } while (optionGeneralMenu != 0);
 
 
 

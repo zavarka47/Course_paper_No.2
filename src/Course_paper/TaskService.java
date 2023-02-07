@@ -9,7 +9,6 @@ import java.util.Map;
 public class TaskService {
     private static Map<Integer, Task> taskMap = new HashMap<>();
 
-
     public static void addTask (Task task){
         taskMap.put(task.getId(), task);
     }

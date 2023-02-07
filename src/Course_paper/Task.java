@@ -5,10 +5,10 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 public abstract class Task {
-    private int idGenerator;
+    private static int idGenerator;
     private String title;
     private Type type;
-    private int id;
+    private int id = idGenerator;
     private LocalDateTime dateTime;
     private String description;
 
@@ -19,7 +19,7 @@ public abstract class Task {
         this.title = title;
         this.description = description;
         this.dateTime = localDateTime;
-        id++;
+        ++idGenerator;
     }
 
 // Мтоды Get
