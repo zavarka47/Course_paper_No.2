@@ -63,13 +63,9 @@ public abstract class Task {
 // Метод toString
     @Override
     public String toString() {
-        return "Task{" +
-                "title='" + title + '\'' +
-                ", type=" + type +
-                ", id=" + id +
-                ", dateTime=" + dateTime +
-                ", description='" + description + '\'' +
-                '}';
+        return "ID: " + id + ", DateTime: " + DataTimeService.printDataTime(dateTime) +
+               ", Title: " + title +  ", Description: " + description +
+                ", Type: " + type;
     }
 
 // Метод appearsIn boolean
