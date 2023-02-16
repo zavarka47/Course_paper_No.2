@@ -1,35 +1,29 @@
 import Course_paper.*;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
 
-
         int optionGeneralMenu;
+
         do {
             printGeneralMenu();
-
-            Scanner generalMenu = new Scanner(System.in);
-            optionGeneralMenu = generalMenu.nextInt();
+            optionGeneralMenu = scannerInt();
 
             if (optionGeneralMenu == 1) {
+
                 String title = "-";
                 Type type = null;
                 String description = "-";
                 LocalDateTime localDateTime = LocalDateTime.now();
 
-                printTypeTaskMenu();
                 int optionTypeMenu;
                 do {
-                    Scanner typeMenu = new Scanner(System.in);
-                    optionTypeMenu = typeMenu.nextInt();
+                    printTypeTaskMenu();
+                    optionTypeMenu = scannerInt();
                     switch (optionTypeMenu) {
                         case 1:
                             type = Type.WORK;
@@ -39,26 +33,22 @@ public class Main {
                             break;
                         default:
                             System.out.println("К сожалению такой опции нет\nПопробуйте еще раз");
-                            printTypeTaskMenu();
                     }
                 } while (optionTypeMenu < 1 || optionTypeMenu > 2);
 
 
                 printTitleTaskMenu();
-                Scanner titleMenu = new Scanner(System.in);
-                title = titleMenu.nextLine();
+                title = scannerString();
 
                 printDescriptionMenu();
-                Scanner descriptionMenu = new Scanner(System.in);
-                description = descriptionMenu.nextLine();
+                description = scannerString();
 
 
                 while (true) {
                     printLocalDateTimeMenu();
-                    Scanner dateMenu = new Scanner(System.in);
-                    String dataM = dateMenu.nextLine();
+                    String dataByString = scannerString();
                     try {
-                        localDateTime = DataTimeService.addLocalDateTime(dataM);
+                        localDateTime = DataTimeService.addLocalDateTime(dataByString);
                         break;
                     } catch (DateTimeParseException d){
                         System.out.println("Дата указана в неверном формате\nПопробуй еще раз");
@@ -69,9 +59,7 @@ public class Main {
                 printPeriodTaskMenu();
                 int optionPeriodTaskMenu;
                 do {
-                    Scanner ptm = new Scanner(System.in);
-                    optionPeriodTaskMenu = ptm.nextInt();
-
+                    optionPeriodTaskMenu = scannerInt();
                     switch (optionPeriodTaskMenu) {
                         case 0:
                             TaskService.addTask(new OneTimeTask(type, title, description, localDateTime));
@@ -100,50 +88,106 @@ public class Main {
             if (optionGeneralMenu == 2) {
                 while (true) {
                     System.out.print("Введите дату в формате (ДД.ММ.ГГГГ) - ");
-                    Scanner getTaskMenu = new Scanner(System.in);
-                    String gtMenu = getTaskMenu.nextLine();
+                    String dataForGetTask = scannerString();
                     try {
-                        TaskService.printAllByDate(DataTimeService.addLocalDate(gtMenu));
+                        TaskService.printTaskByDate(DataTimeService.addLocalDate(dataForGetTask));
                         break;
                     } catch (DateTimeParseException d) {
                         System.out.println("Дата указана в неверном формате\nПопробуй еще раз");
                     }
                 }
-
-
             }
 
 
             if (optionGeneralMenu == 3) {
-                System.out.print("Введите ID задачи - ");
-                Scanner removeTaskById = new Scanner(System.in);
-                Integer idTask = removeTaskById.nextInt();
-                try {
-                    TaskService.removed(idTask);
-                } catch (TaskNotFoundException t){
-                    System.out.println("Задачи с id - " + idTask + " нет в списке задач");
+                if (!TaskService.taskMapIsEmpty()){
+                    while (true) {
+                        System.out.print("Введите ID задачи - ");
+                        Integer idForRemove = scannerInt();
+                        try {
+                            TaskService.removed(idForRemove);
+                        } catch (TaskNotFoundException t) {
+                            System.out.println("Задачи с id - " + idForRemove + " нет в списке задач \nПопробуй еще раз");
+                        }
+                    }
+                } else {
+                    System.out.println("Список задач пуст");
                 }
             }
 
-            if (optionGeneralMenu < 0 || optionGeneralMenu > 3) {
+
+
+            if (optionGeneralMenu == 4 ){
+                if (!TaskService.taskMapIsEmpty()){
+                    int idForUpdateTitle;
+                    while (true) {
+                        System.out.print("Введите ID задачи, название которй хотите изменить: ");
+                        idForUpdateTitle = scannerInt();
+                        try {
+                            TaskService.checkId(idForUpdateTitle);
+                            break;
+                        } catch (TaskNotFoundException t) {
+                            System.out.println("Задачи с id - " + idForUpdateTitle + " нет в списке задач \n" +
+                                    "Попробуйте еще раз");
+                        }
+                    }
+                    System.out.print("Введите новое название задачи: ");
+                    String title = scannerString();
+                    TaskService.updateDescription(idForUpdateTitle, title);
+                } else {
+                    System.out.println("Список задач пуст");
+                }
+            }
+
+
+
+            if (optionGeneralMenu == 5){
+                if (!TaskService.taskMapIsEmpty()){
+                    int idForUpdateDescription;
+                    while (true) {
+                        System.out.print("Введите ID задачи, описание которй хотите изменить: ");
+                        idForUpdateDescription = scannerInt();
+                        try {
+                            TaskService.checkId(idForUpdateDescription);
+                            break;
+                        } catch (TaskNotFoundException t) {
+                            System.out.println("Задачи с id - " + idForUpdateDescription + " нет в списке задач \n" +
+                                    "Попробуйте еще раз");
+                        }
+                    }
+                    System.out.print("Введите новое описание задачи: ");
+                    String description = scannerString();
+                    TaskService.updateDescription(idForUpdateDescription, description);
+                } else {
+                    System.out.println("Список задач пуст");
+                }
+            }
+
+
+
+            if (optionGeneralMenu < 0 || optionGeneralMenu > 5) {
                 System.out.println("К сожалению такой опции нет\nПопробуйте еще раз");
             }
 
-        } while (optionGeneralMenu != 0) ;
+        } while (optionGeneralMenu != 0);
+        System.out.println("Досвидания!");
 
 
-        }
+    }
+
 
 
     // Выпадаюие меню
     public static void printGeneralMenu(){
         System.out.println(
-                        "***                        \n" +
-                        "1 - Добвляем новую задачку \n" +
-                        "2 - Получить план на день  \n" +
-                        "3 - Удалить задачку        \n" +
-                        "0 - Выйти из приложения"       );
-        System.out.print("Введите номер оперции - "     );
+                        "***                           \n" +
+                        "1 - Добвляем новую задачку    \n" +
+                        "2 - Получить план на день     \n" +
+                        "3 - Удалить задачку           \n" +
+                        "4 - Изменить название задачи  \n" +
+                        "5 - Изменить описание задачи  \n" +
+                        "0 - Выйти из приложения"          );
+        System.out.print("Введите номер оперции - "        );
     }
 
     public static void printTypeTaskMenu(){
@@ -182,10 +226,17 @@ public class Main {
                          "3 - Ежемесячная задача     \n" +
                          "4 - Ежегодная задача"          );
         System.out.print("Выбери периодичность задачи - ");
-
     }
 
-
-
-
+    // Scanner
+    public static int scannerInt (){
+        Scanner scannerString = new Scanner(System.in);
+        int i = scannerString.nextInt();
+        return i;
+    }
+    public static String scannerString (){
+        Scanner scannerString = new Scanner(System.in);
+        String string = scannerString.nextLine();
+        return string;
+    }
 }

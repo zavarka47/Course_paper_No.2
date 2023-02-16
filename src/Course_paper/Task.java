@@ -48,19 +48,24 @@ public abstract class Task {
     }
 
 // Методы equals and hashCode
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Task task = (Task) o;
-        return idGenerator == task.idGenerator && id == task.id && Objects.equals(title, task.title) && type == task.type && Objects.equals(dateTime, task.dateTime) && Objects.equals(description, task.description);
-    }
-    @Override
-    public int hashCode() {
-        return Objects.hash(idGenerator, title, type, id, dateTime, description);
+        return  id == task.id && Objects.equals(title, task.title)
+                && type == task.type && Objects.equals(dateTime, task.dateTime)
+                && Objects.equals(description, task.description);
     }
 
-// Метод toString
+    @Override
+    public int hashCode() {
+        return Objects.hash(title, type, id, dateTime, description);
+    }
+
+    // Метод toString
     @Override
     public String toString() {
         return "ID: " + id + ", DateTime: " + DataTimeService.printDataTime(dateTime) +
@@ -70,6 +75,8 @@ public abstract class Task {
 
 // Метод appearsIn boolean
     public abstract boolean appearsIn (LocalDate localDate);
+
+
 
 
 

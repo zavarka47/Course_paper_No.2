@@ -25,20 +25,6 @@ public class DataTimeService {
         return ld;
     }
 
-/*    public static String getDataFormat(){
-        return DATA_FORMAT;
-    }
-    public static String getDataTimeFormat(){
-        return DATA_TIME_FORMAT;
-    }
-
-    public static DateTimeFormatter getDataFormatter(){
-        return DATE_FORMATTER;
-    }
-    public static DateTimeFormatter getDataTimeFormatter(){
-        return DATE_TIME_FORMATTER;
-    }*/
-
     public static String printDataTime (LocalDateTime localDateTime){
         return DATE_TIME_FORMATTER.format(localDateTime);
     }
