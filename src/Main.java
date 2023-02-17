@@ -163,9 +163,16 @@ public class Main {
                 }
             }
 
+            if (optionGeneralMenu == 6){
+                if (!TaskService.taskMapIsEmpty()){
+                    TaskService.getAllGroupedByDate();
+                }else {
+                    System.out.println("Список задач пуст");
+                }
+            }
 
 
-            if (optionGeneralMenu < 0 || optionGeneralMenu > 5) {
+            if (optionGeneralMenu < 0 || optionGeneralMenu > 6) {
                 System.out.println("К сожалению такой опции нет\nПопробуйте еще раз");
             }
 
@@ -186,6 +193,7 @@ public class Main {
                         "3 - Удалить задачку           \n" +
                         "4 - Изменить название задачи  \n" +
                         "5 - Изменить описание задачи  \n" +
+                        "6 - Вывести все задачи        \n" +
                         "0 - Выйти из приложения"          );
         System.out.print("Введите номер оперции - "        );
     }

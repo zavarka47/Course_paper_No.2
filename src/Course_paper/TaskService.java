@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class TaskService {
     private static Map<Integer, Task> taskMap = new HashMap<>();
@@ -48,14 +49,14 @@ public class TaskService {
 
     public static void updateDescription (int id, String description) {
         taskMap.get(id).setDescription(description);
-        System.out.println("Описание задачи " + id + " изменено \n" +
+        System.out.println("Описание задачи Id - " + id + " изменено \n" +
                 taskMap.get(id));
 
     }
 
     public static void updateTitle (int id, String title){
         taskMap.get(id).setTitle(title);
-        System.out.println("Описание задачи " + id + " изменено \n" +
+        System.out.println("Описание задачи  Id -" + id + " изменено \n" +
                 taskMap.get(id));
     }
 
@@ -69,6 +70,14 @@ public class TaskService {
 
     public static boolean taskMapIsEmpty (){
         return taskMap.isEmpty();
+    }
+
+    public static void getAllGroupedByDate () {
+        taskMap.entrySet().
+                stream().
+                sorted((o1, o2) -> o1.getValue().getDateTime().compareTo(o2.getValue().getDateTime())).
+                collect(Collectors.toList()).
+                forEach(s -> System.out.println(s.getValue()));
     }
 
 
