@@ -4,23 +4,30 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class TaskService {
     private static Map<Integer, Task> taskMap = new HashMap<>();
+    private static Map<Integer, Task> removeTaskMap = new HashMap<>();
+
 
     public static void addTask (Task task){
         taskMap.put(task.getId(), task);
+        System.out.println("Создана новая задача:\n" +
+                task);
     }
 
     public static void removed (Integer id) throws TaskNotFoundException{
         if (taskMap.containsKey(id)) {
+            removeTaskMap.put(id, taskMap.get(id));
             taskMap.remove(id);
         }else {
             throw new TaskNotFoundException();
         }
     }
 
-    public static ArrayList<Task> getAllByDate (LocalDate localDate) {
+    // Актуальные задачи
+    public static ArrayList<Task> getTaskByDate(LocalDate localDate) {
         ArrayList<Task> allTaskByDate = new ArrayList<>();
         for (Task task : taskMap.values()) {
             if (task.appearsIn(localDate)) {
@@ -30,20 +37,66 @@ public class TaskService {
         return allTaskByDate;
     }
 
-    public static void printAllByDate (LocalDate localDate) {
-        ArrayList<Task> allTaskByDate = getAllByDate(localDate);
-        for (Task task:allTaskByDate) {
-            System.out.println(task);}
-         if (allTaskByDate.size()==0) {
+    public static void printTaskByDate(LocalDate localDate) {
+        if (getTaskByDate(localDate).size()!=0) {
+            for (Task task : getTaskByDate(localDate)) {
+                System.out.println(task);
+            }
+        }else  {
             System.out.println("На сегодня задач нет");
         }
     }
 
-    public static void getAllTask (){
-        for (Task t :taskMap.values()) {
-            System.out.println(t);
+    public static void updateDescription (int id, String description) {
+        taskMap.get(id).setDescription(description);
+        System.out.println("Описание задачи Id - " + id + " изменено \n" +
+                taskMap.get(id));
+
+    }
+
+    public static void updateTitle (int id, String title){
+        taskMap.get(id).setTitle(title);
+        System.out.println("Описание задачи  Id -" + id + " изменено \n" +
+                taskMap.get(id));
+    }
+
+    public static boolean checkId (int id) throws  TaskNotFoundException {
+        if (taskMap.containsKey(id)) {
+            return true;
+        } else {
+            throw new TaskNotFoundException();
         }
     }
 
+    public static boolean taskMapIsEmpty (){
+        return taskMap.isEmpty();
+    }
 
+    public static void getAllGroupedByDate () {
+        taskMap.entrySet().
+                stream().
+                sorted((o1, o2) -> o1.getValue().getDateTime().compareTo(o2.getValue().getDateTime())).
+                collect(Collectors.toList()).
+                forEach(s -> System.out.println(s.getValue()));
+    }
+
+
+    // Удаленные задачи
+    public static ArrayList<Task> getAllRemoveTask () {
+        ArrayList<Task> allRemoveTask = new ArrayList<>();
+        for (Task task : taskMap.values()) {
+            allRemoveTask.add(task);
+        }
+        return allRemoveTask;
+    }
+
+    public static void printAllRemoveTask () {
+        if (getAllRemoveTask().size()!=0){
+            for (Task t : getAllRemoveTask()) {
+                System.out.println(t);
+            }
+        } else {
+            System.out.println("Список удаленных задач пуст");
+        }
+    }
 }
