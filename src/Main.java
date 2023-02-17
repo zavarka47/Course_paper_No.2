@@ -49,9 +49,14 @@ public class Main {
                     String dataByString = scannerString();
                     try {
                         localDateTime = DataTimeService.addLocalDateTime(dataByString);
+                        if (localDateTime.isBefore(LocalDateTime.now())){
+                            throw new DateIsBeforeException();
+                        }
                         break;
                     } catch (DateTimeParseException d){
                         System.out.println("Дата указана в неверном формате\nПопробуй еще раз");
+                    } catch (DateIsBeforeException d){
+                        System.out.println("Вы указали прошедшую дату\nПопробуй еще раз");
                     }
                 }
 
