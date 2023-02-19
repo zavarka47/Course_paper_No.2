@@ -11,7 +11,6 @@ public class DailyTask extends Task {
 
     @Override
     public boolean appearsIn(LocalDate localDate) {
-
-        return true;
+        return !localDate.isBefore(getDateTime().toLocalDate());
     }
 }
