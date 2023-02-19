@@ -13,6 +13,8 @@ public class DataTimeService {
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(DATA_FORMAT);
 
 
+    private DataTimeService() {
+    }
 
     public static LocalDateTime addLocalDateTime (String localDateTime) {
             LocalDateTime ldt = LocalDateTime.parse(localDateTime, DATE_TIME_FORMATTER);

@@ -76,7 +76,6 @@ public class TaskService {
         taskMap.entrySet().
                 stream().
                 sorted((o1, o2) -> o1.getValue().getDateTime().compareTo(o2.getValue().getDateTime())).
-                collect(Collectors.toList()).
                 forEach(s -> System.out.println(s.getValue()));
     }
 
@@ -84,9 +83,7 @@ public class TaskService {
     // Удаленные задачи
     public static ArrayList<Task> getAllRemoveTask () {
         ArrayList<Task> allRemoveTask = new ArrayList<>();
-        for (Task task : taskMap.values()) {
-            allRemoveTask.add(task);
-        }
+        allRemoveTask.addAll(taskMap.values());
         return allRemoveTask;
     }
 

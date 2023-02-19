@@ -111,6 +111,7 @@ public class Main {
                         Integer idForRemove = scannerInt();
                         try {
                             TaskService.removed(idForRemove);
+                            break;
                         } catch (TaskNotFoundException t) {
                             System.out.println("Задачи с id - " + idForRemove + " нет в списке задач \nПопробуй еще раз");
                         }
@@ -138,7 +139,7 @@ public class Main {
                     }
                     System.out.print("Введите новое название задачи: ");
                     String title = scannerString();
-                    TaskService.updateDescription(idForUpdateTitle, title);
+                    TaskService.updateTitle(idForUpdateTitle, title);
                 } else {
                     System.out.println("Список задач пуст");
                 }
